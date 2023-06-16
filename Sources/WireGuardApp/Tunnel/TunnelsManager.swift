@@ -4,7 +4,7 @@
 import Foundation
 import NetworkExtension
 import os.log
-
+// The TunnnelsManagerListDelegate and TunnelsManagerActivationDelegate are used to notify the UI of changes to the tunnels list and tunnel activation status, respectively.
 protocol TunnelsManagerListDelegate: AnyObject {
     func tunnelAdded(at index: Int)
     func tunnelModified(at index: Int)
@@ -18,21 +18,24 @@ protocol TunnelsManagerActivationDelegate: AnyObject {
     func tunnelActivationFailed(tunnel: TunnelContainer, error: TunnelsManagerActivationError) // status didn't change to connected
     func tunnelActivationSucceeded(tunnel: TunnelContainer) // status changed to connected
 }
-
+// The TunnelsManager class is used to manage the list of tunnels and their activation status.
 class TunnelsManager {
+    // The tunnels variable is the source of truth for the list of tunnels.
     private var tunnels: [TunnelContainer]
+    // The tunnelsListDelegate and activationDelegate variables are used to notify the UI of changes to the tunnels list and tunnel activation status, respectively.
     weak var tunnelsListDelegate: TunnelsManagerListDelegate?
     weak var activationDelegate: TunnelsManagerActivationDelegate?
+    // The statusObservationToken, waiteeObservationToken, and configurationsObservationToken variables are used to observe changes to the tunnel status, wait status, and tunnel configurations, respectively.
     private var statusObservationToken: NotificationToken?
     private var waiteeObservationToken: NSKeyValueObservation?
     private var configurationsObservationToken: NotificationToken?
-
+    // init() is used to initialize the TunnelsManager class with a list of tunnels.
     init(tunnelProviders: [NETunnelProviderManager]) {
         tunnels = tunnelProviders.map { TunnelContainer(tunnel: $0) }.sorted { TunnelsManager.tunnelNameIsLessThan($0.name, $1.name) }
         startObservingTunnelStatuses()
         startObservingTunnelConfigurations()
     }
-
+    // create is used to create a TunnelsManager instance and call the completionHandler with the result.
     static func create(completionHandler: @escaping (Result<TunnelsManager, TunnelsManagerError>) -> Void) {
         #if targetEnvironment(simulator)
         completionHandler(.success(TunnelsManager(tunnelProviders: MockTunnels.createMockTunnels())))
@@ -412,22 +415,22 @@ class TunnelsManager {
     func index(of tunnel: TunnelContainer) -> Int? {
         return tunnels.firstIndex(of: tunnel)
     }
-
+    // Returns the tunnel with the given name, or nil if there is none.
     func tunnel(named tunnelName: String) -> TunnelContainer? {
         return tunnels.first { $0.name == tunnelName }
     }
-
+    // Returns the tunnel that is currently waiting to be activated, or nil if there is none.
     func waitingTunnel() -> TunnelContainer? {
         return tunnels.first { $0.status == .waiting }
     }
-
+    // Returns the tunnel that is currently in operation, or nil if there is none.
     func tunnelInOperation() -> TunnelContainer? {
         if let waitingTunnelObject = waitingTunnel() {
             return waitingTunnelObject
         }
         return tunnels.first { $0.status != .inactive }
     }
-
+    
     func startActivation(of tunnel: TunnelContainer) {
         guard tunnels.contains(tunnel) else { return } // Ensure it's not deleted
         guard tunnel.status == .inactive else {
@@ -562,14 +565,18 @@ private func lastErrorTextFromNetworkExtension(for tunnel: TunnelContainer) -> (
 
     return (tr("alertTunnelActivationFailureTitle"), tr("alertTunnelActivationFailureMessage"))
 }
-
+// The TunnelContainer class is used to represent a WireGuard tunnel. It is a wrapper around NETunnelProviderManager.
 class TunnelContainer: NSObject {
     @objc dynamic var name: String
     @objc dynamic var status: TunnelStatus
 
     @objc dynamic var isActivateOnDemandEnabled: Bool
     @objc dynamic var hasOnDemandRules: Bool
-
+    // The isAttemptingActivation property is used to track whether a tunnel is currently being activated. It is used to
+    // determine whether a tunnel's status should be updated when a NEVPNStatusDidChange notification is received.
+    // If a tunnel is being activated, its status should not be updated when a NEVPNStatusDidChange notification is received.
+    // This is because the tunnel's status will be .connecting or .disconnecting, which is not the final status of the tunnel.
+    // The tunnel's status will be updated when the tunnel's activation attempt succeeds or fails.
     var isAttemptingActivation = false {
         didSet {
             if isAttemptingActivation {
@@ -591,11 +598,23 @@ class TunnelContainer: NSObject {
             }
         }
     }
+    // The activationAttemptId property is used to track whether a tunnel is currently being activated. It is used to
+    // determine whether a tunnel's status should be updated when a NEVPNStatusDidChange notification is received.
+    // If a tunnel is being activated, its status should not be updated when a NEVPNStatusDidChange notification is received.
+    // This is because the tunnel's status will be .connecting or .disconnecting, which is not the final status of the tunnel.
+    // The tunnel's status will be updated when the tunnel's activation attempt succeeds or fails.
     var activationAttemptId: String?
+    // The activationTimer property is a timer that is used to update a tunnel's status when a status update notification
+    // is not received within a certain amount of time after a tunnel is activated or deactivated.
     var activationTimer: Timer?
+    // The deactivationTimer property is a timer that is used to update a tunnel's status when a status update notification
+    // is not received within a certain amount of time after a tunnel is activated or deactivated.
     var deactivationTimer: Timer?
+    // The onDeactivated property is a closure that is called when a tunnel is deactivated.
     var onDeactivated: (() -> Void)?
-
+    // The tunnelProvider property is the NETunnelProviderManager instance that is used to manage the tunnel.
+    // q: What is a fileprivate var?
+    // a: A fileprivate var is a variable that is accessible only from within the source file where it is defined.
     fileprivate var tunnelProvider: NETunnelProviderManager {
         didSet {
             isActivateOnDemandEnabled = tunnelProvider.isOnDemandEnabled && tunnelProvider.isEnabled
@@ -616,7 +635,7 @@ class TunnelContainer: NSObject {
         return (tunnelProvider.protocolConfiguration as? NETunnelProviderProtocol)?.providerConfiguration?["UID"] as? uid_t == getuid()
     }
     #endif
-
+    // Initializes a new TunnelContainer instance from a NETunnelProviderManager.
     init(tunnel: NETunnelProviderManager) {
         name = tunnel.localizedDescription ?? "Unnamed"
         let status = TunnelStatus(from: tunnel.connection.status)
@@ -724,6 +743,7 @@ class TunnelContainer: NSObject {
     }
 }
 
+// This extension is used to store the tunnel configuration in the NETunnelProviderManager instance.
 extension NETunnelProviderManager {
     private static var cachedConfigKey: UInt8 = 0
 
