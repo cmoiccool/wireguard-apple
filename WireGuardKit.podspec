@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                             WireGuard LLC
                             https://www.wireguard.com
                             ' }
-    s.source           = { :git => 'https://github.com/cmoiccool/wireguard-apple.git', :tag => s.version.to_s }
+    s.source           = { :path => '.' }
     s.source_files     = 'Sources/WireGuardKit/**/*'
     s.ios.deployment_target = '15.0'
     s.osx.deployment_target = '12.0'
