@@ -54,6 +54,14 @@ class TunnelsManager {
                 if let tunnelName = tunnelManager.localizedDescription {
                     tunnelNames.insert(tunnelName)
                 }
+                // q: Why do we need to migrate here?
+                // a: Because we don't know if the tunnel was created by the app or not. If it was created by the app, then we don't need to migrate.
+                // q: What does migrate mean?
+                // a: It means that we need to migrate the tunnel configuration from the old format to the new format.
+                // q: What is the old format?
+                // a: The old format is the format that was used by the app before version 0.0.20181115. The old format is a plist file that contains the tunnel configuration.
+                // q: What is the new format?
+                // a: The new format is the format that was used by the app after version 0.0.20181115. The new format is a plist file that contains the tunnel configuration and a keychain reference to the private key.
                 guard let proto = tunnelManager.protocolConfiguration as? NETunnelProviderProtocol else { continue }
                 if proto.migrateConfigurationIfNeeded(called: tunnelManager.localizedDescription ?? "unknown") {
                     tunnelManager.saveToPreferences { _ in }
@@ -430,7 +438,7 @@ class TunnelsManager {
         }
         return tunnels.first { $0.status != .inactive }
     }
-    
+
     func startActivation(of tunnel: TunnelContainer) {
         guard tunnels.contains(tunnel) else { return } // Ensure it's not deleted
         guard tunnel.status == .inactive else {
@@ -547,7 +555,7 @@ class TunnelsManager {
             }
         }
     }
-
+    // tunnelNameIsLessThan is used to sort tunnels by name in the tunnel list
     static func tunnelNameIsLessThan(_ lhs: String, _ rhs: String) -> Bool {
         return lhs.compare(rhs, options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive, .numeric]) == .orderedAscending
     }

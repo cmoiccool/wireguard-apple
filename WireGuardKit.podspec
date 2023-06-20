@@ -17,13 +17,21 @@ Pod::Spec.new do |s|
     s.osx.deployment_target = '12.0'
     s.swift_version    = '5.5'
 
-    s.subspec 'WireGuardKitGo' do |sg|
-        sg.source_files = 'Sources/WireGuardKitGo/**/*'
-        sg.public_header_files = 'Sources/WireGuardKitGo/*.h'
-        # sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
-        sg.libraries = 'wg-go'
-        sg.script_phase = {
-            :name => 'Compile WireGuardKitGoBridge Library',
+    s.prepare_command  = <<-CMD
+./build-wg-lib.sh
+    CMD
+
+
+    s.subspec 'WireGuardKitGoBridgemacOS' do |sbm|
+        sbm.platform = :osx, '12.0'
+        # Set the SDKROOT to macosx, so that the go build will use the correct SDK
+        sbm.user_target_xcconfig = { 'SDKROOT' => 'macosx' }
+        sbm.source_files = 'Sources/WireGuardKitGo/**/*'
+        # sbi.public_header_files = 'Sources/WireGuardKitGo/*.h'
+        # sbi.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
+        # sbi.libraries = 'wg-go'
+        sbm.script_phase = {
+            :name => 'Compile WireGuardKitGoBridgemacOS Library',
             :script => 'pwd && ls -al \
             && cd WireGuardKit \
             && pwd && ls -al \
@@ -31,7 +39,7 @@ Pod::Spec.new do |s|
             && pwd && ls -al \
             && cd WireGuardKitGo \
             && pwd && ls -al \
-            && make \
+            && make $ACTION \
             && echo "---------------------------------------------------------------------------" \
             && pwd && ls -al \
             && cd $BUILT_PRODUCTS_DIR \
@@ -40,11 +48,52 @@ Pod::Spec.new do |s|
             && pwd && ls -al \
             && cd $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/ \
             && pwd && ls -al \
-            && cp -r $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/libwg-go.a . \
+            && cp -r $BUILT_PRODUCTS_DIR/libwg-go.a . \
             && pwd && ls -al',
             :execution_position => :before_compile
         }
-        sg.vendored_libraries = '$BUILT_PRODUCTS_DIR\libwg-go.a'
+        sbm.vendored_libraries = '$(BUILT_PRODUCTS_DIR)/libwg-go.a'
+    end
+
+    s.subspec 'WireGuardKitGoBridgeiOS' do |sbi|
+        sbi.platform = :ios, '15.0'
+        # Set the SDKROOT to iphoneos, so that the go build will use the correct SDK
+        sbi.user_target_xcconfig = { 'SDKROOT' => 'iphoneos' }
+        sbi.source_files = 'Sources/WireGuardKitGo/**/*'
+        # sbi.public_header_files = 'Sources/WireGuardKitGo/*.h'
+        # sbi.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
+        # sbi.libraries = 'wg-go'
+        sbi.script_phase = {
+            :name => 'Compile WireGuardKitGoBridgeiOS Library',
+            :script => 'pwd && ls -al \
+            && cd WireGuardKit \
+            && pwd && ls -al \
+            && cd Sources \
+            && pwd && ls -al \
+            && cd WireGuardKitGo \
+            && pwd && ls -al \
+            && make $ACTION \
+            && echo "---------------------------------------------------------------------------" \
+            && pwd && ls -al \
+            && cd $BUILT_PRODUCTS_DIR \
+            && pwd && ls -al \
+            && cd WireGuardKit.framework \
+            && pwd && ls -al \
+            && cd $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/ \
+            && pwd && ls -al \
+            && cp -r $BUILT_PRODUCTS_DIR/libwg-go.a . \
+            && pwd && ls -al',
+            :execution_position => :before_compile
+        }
+        sbi.vendored_libraries = '$(BUILT_PRODUCTS_DIR)/libwg-go.a'
+    end
+
+    s.subspec 'WireGuardKitGo' do |sg|
+        sg.source_files = 'Sources/WireGuardKitGo/**/*'
+        sg.public_header_files = 'Sources/WireGuardKitGo/*.h'
+        sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
+        sg.libraries = 'wg-go'
+        # sg.vendored_libraries = '$(BUILT_PRODUCTS_DIR)\libwg-go.a'
     end
 
     s.subspec 'WireGuardKitC' do |sc|
