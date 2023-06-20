@@ -17,6 +17,10 @@ Pod::Spec.new do |s|
     s.osx.deployment_target = '12.0'
     s.swift_version    = '5.5'
 
+    s.prepare_command  = <<-CMD
+    ./build-wg-go-lib.sh
+    CMD
+
     s.subspec 'WireGuardKitGo' do |sg|
         sg.source_files = 'Sources/WireGuardKitGo/**/*'
         sg.public_header_files = 'Sources/WireGuardKitGo/*.h'

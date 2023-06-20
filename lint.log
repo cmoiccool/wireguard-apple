@@ -1,0 +1,91 @@
+
+ -> WireGuardKit  WireGuardKit (1.0.16) - Analyzing on iOS 15.0 platform.
+  - Generating Info.plist file at `../../../../../../var/folders/l4/4vwhggm56px6nblshp8ym3jh0000gn/T/CocoaPods-Lint-20230620-21910-2c5rq8-WireGuardKit/App/App-Info.plist`
+  Preparing
+
+Analyzing dependencies
+
+Inspecting targets to integrate
+  Using `ARCHS` setting to build architectures of target `Pods-App`: (``)
+
+Fetching external sources
+-> Fetching podspec for `WireGuardKit` from `/Users/davidangst/Documents/AndroidStudioProjects.nosync/my-wireguard-apple/wireguard-apple/WireGuardKit.podspec`
+
+Resolving dependencies of 
+
+Comparing resolved specification to the sandbox manifest
+  A WireGuardKit
+
+Downloading dependencies
+
+-> Installing WireGuardKit (1.0.16)
+ > Git download
+ > Git download
+     $ /usr/local/bin/git clone https://github.com/cmoiccool/wireguard-apple.git /var/folders/l4/4vwhggm56px6nblshp8ym3jh0000gn/T/d20230620-21910-hmjj17 --template= --single-branch --depth 1 --branch 1.0.16
+ > Running prepare command
+   $ /usr/local/bin/bash -c  set -e ./build-wg-go-lib.sh
+ -> WireGuardKit (1.0.16)
+    - ERROR | [iOS] unknown: Encountered an unknown error (/usr/local/bin/bash -c 
+set -e
+./build-wg-go-lib.sh
+
+/usr/local/bin/bash: line 3: ./build-wg-go-lib.sh: No such file or directory
+
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/executable.rb:73:in `execute_command'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/executable.rb:27:in `block in executable'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_preparer.rb:66:in `block (2 levels) in run_prepare_command'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_preparer.rb:60:in `chdir'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_preparer.rb:60:in `block in run_prepare_command'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/user_interface.rb:64:in `section'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_preparer.rb:59:in `run_prepare_command'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_preparer.rb:37:in `prepare!'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:288:in `block in copy_and_clean'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:128:in `lock'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:99:in `write_lock'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:285:in `copy_and_clean'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:244:in `block (2 levels) in uncached_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:242:in `each'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:242:in `block in uncached_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:266:in `in_tmpdir'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:238:in `uncached_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader/cache.rb:33:in `download_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/downloader.rb:42:in `download'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_downloader.rb:69:in `download!'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_installer.rb:117:in `download_source'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer/pod_source_installer.rb:67:in `install!'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:621:in `install_source_of_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:539:in `block (2 levels) in install_pod_sources'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/user_interface.rb:86:in `titled_section'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:538:in `block in install_pod_sources'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:535:in `each'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:535:in `install_pod_sources'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:258:in `block in download_dependencies'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/user_interface.rb:64:in `section'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/installer.rb:257:in `download_dependencies'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:580:in `block in download_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:580:in `each'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:580:in `download_pod'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:402:in `block in perform_extensive_analysis'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:396:in `each'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:396:in `perform_extensive_analysis'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/validator.rb:129:in `validate'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/command/spec/lint.rb:90:in `block in run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/command/spec/lint.rb:71:in `each'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/command/spec/lint.rb:71:in `run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/claide-1.1.0/lib/claide/command.rb:334:in `run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/command.rb:52:in `run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/bin/pod:55:in `<top (required)>'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/bin/pod:25:in `load'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/bin/pod:25:in `<main>'
+) during validation.
+
+Analyzed 1 podspec.
+
+[!] The spec did not pass validation, due to 1 error.
+
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/command/spec/lint.rb:107:in `run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/claide-1.1.0/lib/claide/command.rb:334:in `run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/lib/cocoapods/command.rb:52:in `run'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/gems/cocoapods-1.12.1/bin/pod:55:in `<top (required)>'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/bin/pod:25:in `load'
+/usr/local/Cellar/cocoapods/1.12.1/libexec/bin/pod:25:in `<main>'
