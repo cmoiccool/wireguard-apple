@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WireGuardKit'
-    s.version          = '1.0.16-2'
+    s.version          = '1.0.16-3'
     s.summary          = 'WireGuardKit for iOS and macOS.'
     s.description      = <<-DESC
                          WireGuardKit is a WireGuard wrapper for iOS and macOS.
