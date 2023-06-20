@@ -1,6 +1,6 @@
 
  -> WireGuardKit  WireGuardKit (1.0.16) - Analyzing on iOS 15.0 platform.
-  - Generating Info.plist file at `../../../../../../var/folders/l4/4vwhggm56px6nblshp8ym3jh0000gn/T/CocoaPods-Lint-20230620-21910-2c5rq8-WireGuardKit/App/App-Info.plist`
+  - Generating Info.plist file at `../../../../../../var/folders/l4/4vwhggm56px6nblshp8ym3jh0000gn/T/CocoaPods-Lint-20230620-24322-novtkz-WireGuardKit/App/App-Info.plist`
   Preparing
 
 Analyzing dependencies
@@ -21,7 +21,7 @@ Downloading dependencies
 -> Installing WireGuardKit (1.0.16)
  > Git download
  > Git download
-     $ /usr/local/bin/git clone https://github.com/cmoiccool/wireguard-apple.git /var/folders/l4/4vwhggm56px6nblshp8ym3jh0000gn/T/d20230620-21910-hmjj17 --template= --single-branch --depth 1 --branch 1.0.16
+     $ /usr/local/bin/git clone https://github.com/cmoiccool/wireguard-apple.git /var/folders/l4/4vwhggm56px6nblshp8ym3jh0000gn/T/d20230620-24322-7yo1ld --template= --single-branch --depth 1 --branch 1.0.16
  > Running prepare command
    $ /usr/local/bin/bash -c  set -e ./build-wg-go-lib.sh
  -> WireGuardKit (1.0.16)

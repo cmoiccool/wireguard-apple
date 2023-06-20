@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WireGuardKit'
-    s.version          = '1.0.16'
+    s.version          = '1.0.16-2'
     s.summary          = 'WireGuardKit for iOS and macOS.'
     s.description      = <<-DESC
                          WireGuardKit is a WireGuard wrapper for iOS and macOS.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
     s.swift_version    = '5.5'
 
     s.prepare_command  = <<-CMD
-    ./build-wg-go-lib.sh
+./build-wg-go-lib.sh
     CMD
 
     s.subspec 'WireGuardKitGo' do |sg|
