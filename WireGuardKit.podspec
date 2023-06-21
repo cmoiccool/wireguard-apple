@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WireGuardKit'
-    s.version          = '1.0.16-4'
+    s.version          = '1.0.16-5'
     s.summary          = 'WireGuardKit for iOS and macOS.'
     s.description      = <<-DESC
                          WireGuardKit is a WireGuard wrapper for iOS and macOS.
@@ -18,9 +18,9 @@ Pod::Spec.new do |s|
     s.swift_version    = '5.0'
 
     s.subspec 'WireGuardKitGo' do |sg|
-        sg.source_files = 'Sources/WireGuardKitGo/**/*{.h,.m,.c,.swift}'
+        sg.source_files = 'Sources/WireGuardKitGo/**/*'
         sg.public_header_files = 'Sources/WireGuardKitGo/*.h'
-        sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
+        # sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
         sg.preserve_paths = 'Sources/WireGuardKitGo/*{.a,.modulemap}'
         
         # sg.module_map = 'Sources/WireGuardKitGo/module.modulemap'
@@ -29,26 +29,32 @@ Pod::Spec.new do |s|
         sg.script_phase = {
             :name => 'Compile WireGuardKitGoBridge Library',
             :script => 'pwd && ls -al \
-            && cd WireGuardKit \
+            && echo "-----------------------------------Source--------------------------------" \
+            && cd WireGuardKit/Sources/WireguardKitGo \
             && pwd && ls -al \
-            && cd Sources \
-            && pwd && ls -al \
-            && cd WireGuardKitGo \
-            && pwd && ls -al \
+            && echo "-----------------------------------Start Make--------------------------------" \
             && make \
-            && echo "---------------------------------------------------------------------------" \
+            && echo "-----------------------------------End Make----------------------------------" \
             && pwd && ls -al \
+            && echo "-----------------------------------Built Product--------------------------------" \
             && cd $BUILT_PRODUCTS_DIR \
             && pwd && ls -al \
-            && cd WireGuardKit.framework \
-            && pwd && ls -al \
+            && echo "-----------------------------------Source--------------------------------" \
             && cd $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/ \
             && pwd && ls -al \
-            && cp -r $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/libwg-go.a . \
+            && echo "-----------------------------------Start Clean Source--------------------------------" \
+            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.diff \
+            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.go \
+            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.mod \
+            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.sum \
+            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/Makefile \
+            && echo "-----------------------------------End Clean Source--------------------------------" \
+            && pwd && ls -al \
+            && cp -r $BUILT_PRODUCTS_DIR/libwg-go.a . \
             && pwd && ls -al',
             :execution_position => :before_compile
         }
-        sg.vendored_libraries = '$BUILT_PRODUCTS_DIR\libwg-go.a'
+        sg.vendored_libraries = '$BUILT_PRODUCTS_DIR/libwg-go.a'
         # sg.vendored_libraries = 'libwg-go.a'
 
 
