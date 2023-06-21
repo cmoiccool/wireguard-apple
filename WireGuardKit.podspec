@@ -15,17 +15,17 @@ Pod::Spec.new do |s|
     s.source_files     = 'Sources/WireGuardKit/**/*'
     s.ios.deployment_target = '15.0'
     s.osx.deployment_target = '12.0'
-    s.swift_version    = '5.5'
-
-    s.prepare_command  = <<-CMD
-./build-wg-go-lib.sh
-    CMD
+    s.swift_version    = '5.0'
 
     s.subspec 'WireGuardKitGo' do |sg|
-        sg.source_files = 'Sources/WireGuardKitGo/**/*'
+        sg.source_files = 'Sources/WireGuardKitGo/**/*{.h,.m,.c,.swift}'
         sg.public_header_files = 'Sources/WireGuardKitGo/*.h'
-        # sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
-        sg.libraries = 'wg-go'
+        sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
+        sg.preserve_paths = 'Sources/WireGuardKitGo/*{.a,.modulemap}'
+        
+        # sg.module_map = 'Sources/WireGuardKitGo/module.modulemap'
+        # sg.libraries = 'wg-go'
+        
         sg.script_phase = {
             :name => 'Compile WireGuardKitGoBridge Library',
             :script => 'pwd && ls -al \
@@ -49,6 +49,9 @@ Pod::Spec.new do |s|
             :execution_position => :before_compile
         }
         sg.vendored_libraries = '$BUILT_PRODUCTS_DIR\libwg-go.a'
+        # sg.vendored_libraries = 'libwg-go.a'
+
+
     end
 
     s.subspec 'WireGuardKitC' do |sc|

@@ -9,5 +9,5 @@ echo "--------------------------------------------------------------------------
 pwd && ls -al
 cd out
 pwd && ls -al
-cd WireGuardKit.framework
+cp WireGuardKit.framework
 pwd && ls -al
