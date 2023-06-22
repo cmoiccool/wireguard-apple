@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WireGuardKit'
-    s.version          = '1.0.16-5'
+    s.version          = '1.0.16-6'
     s.summary          = 'WireGuardKit for iOS and macOS.'
     s.description      = <<-DESC
                          WireGuardKit is a WireGuard wrapper for iOS and macOS.
@@ -22,9 +22,6 @@ Pod::Spec.new do |s|
         sg.public_header_files = 'Sources/WireGuardKitGo/*.h'
         # sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
         sg.preserve_paths = 'Sources/WireGuardKitGo/*{.a,.modulemap}'
-        
-        # sg.module_map = 'Sources/WireGuardKitGo/module.modulemap'
-        # sg.libraries = 'wg-go'
         
         sg.script_phase = {
             :name => 'Compile WireGuardKitGoBridge Library',
@@ -49,14 +46,10 @@ Pod::Spec.new do |s|
             && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.sum \
             && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/Makefile \
             && echo "-----------------------------------End Clean Source--------------------------------" \
-            && pwd && ls -al \
-            && cp -r $BUILT_PRODUCTS_DIR/libwg-go.a . \
             && pwd && ls -al',
             :execution_position => :before_compile
         }
         sg.vendored_libraries = '$BUILT_PRODUCTS_DIR/libwg-go.a'
-        # sg.vendored_libraries = 'libwg-go.a'
-
 
     end
 
