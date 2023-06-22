@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WireGuardKit'
-    s.version          = '1.0.16-6'
+    s.version          = '1.0.16-7'
     s.summary          = 'WireGuardKit for iOS and macOS.'
     s.description      = <<-DESC
                          WireGuardKit is a WireGuard wrapper for iOS and macOS.
@@ -17,45 +17,33 @@ Pod::Spec.new do |s|
     s.osx.deployment_target = '12.0'
     s.swift_version    = '5.0'
 
-    s.subspec 'WireGuardKitGo' do |sg|
-        sg.source_files = 'Sources/WireGuardKitGo/**/*'
-        sg.public_header_files = 'Sources/WireGuardKitGo/*.h'
-        # sg.exclude_files = 'Sources/WireGuardKitGo/{goruntime-boottime-over-monotonic.diff,go.mod,go.sum,api-apple.go,Makefile}'
-        sg.preserve_paths = 'Sources/WireGuardKitGo/*{.a,.modulemap}'
-        
-        sg.script_phase = {
-            :name => 'Compile WireGuardKitGoBridge Library',
-            :script => 'pwd && ls -al \
-            && echo "-----------------------------------Source--------------------------------" \
-            && cd WireGuardKit/Sources/WireguardKitGo \
-            && pwd && ls -al \
-            && echo "-----------------------------------Start Make--------------------------------" \
-            && make \
-            && echo "-----------------------------------End Make----------------------------------" \
-            && pwd && ls -al \
-            && echo "-----------------------------------Built Product--------------------------------" \
-            && cd $BUILT_PRODUCTS_DIR \
-            && pwd && ls -al \
-            && echo "-----------------------------------Source--------------------------------" \
-            && cd $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/ \
-            && pwd && ls -al \
-            && echo "-----------------------------------Start Clean Source--------------------------------" \
-            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.diff \
-            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.go \
-            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.mod \
-            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/*.sum \
-            && rm -f $SRCROOT/WireGuardKit/Sources/WireGuardKitGo/Makefile \
-            && echo "-----------------------------------End Clean Source--------------------------------" \
-            && pwd && ls -al',
-            :execution_position => :before_compile
-        }
-        sg.vendored_libraries = '$BUILT_PRODUCTS_DIR/libwg-go.a'
+    s.prepare_command = <<-CMD
+./build-libwg-go.sh
+    CMD
 
-    end
+    s.vendored_frameworks = "Frameworks/wg-go.xcframework"
 
-    s.subspec 'WireGuardKitC' do |sc|
-        sc.source_files = 'Sources/WireGuardKitC/**/*'
-        sc.public_header_files = 'Sources/WireGuardKitC/*.h'
-    end
+    s.source_files = [
+        "Sources/WireGuardKitC/**/*.{c,h}",
+        "Sources/WireGuardKit/**/*.{swift}",
+        "Sources/WireGuardKitGo/wireguard.h",
+    ]
+    s.exclude_files = [
+        "Sources/WireGuardKitGo/out/**",
+    ]
+    s.preserve_paths = [
+        "Sources/WireGuardKitC/module.modulemap",
+    ]
+    s.pod_target_xcconfig = {
+        "SWIFT_INCLUDE_PATHS" => [
+        "${PODS_TARGET_SRCROOT}/WireGuardKit/Sources/WireGuardKitC/**",
+        "${PODS_TARGET_SRCROOT}/WireGuardKit/Sources/WireGuardKit/**",
+        "${PODS_TARGET_SRCROOT}/WireGuardKit/Sources/WireGuardKitGo/wireguard.h",
+        ],
+        "HEADER_SEARCH_PATHS" => [
+        "${PODS_TARGET_SRCROOT}/WireGuardKit/Sources/WireGuardKitGo/wireguard.h",
+        ],
+        "APPLICATION_EXTENSION_API_ONLY" => "YES",
+    }
 end
 
